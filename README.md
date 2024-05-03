@@ -19,6 +19,7 @@ int main(void) {
 	delete a;
 	A* a1 = A::instance("one");
 	A* a2 = A::instance("two");
-	s
+	std::cout << "Addresses are equal ? " << (a1 == a2) << std::endl;
+	return 0;
 }
 ```
