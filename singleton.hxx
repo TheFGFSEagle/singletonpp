@@ -15,7 +15,7 @@ class Singleton: public Bases... {
 		static Class* instance(std::string key) {
 			static std::map<std::string, Class*> instanceMap;
 			if (!instanceMap.contains(key)) {
-				instanceMap[key] = new Class;
+				instanceMap[key] = new Class(key);
 			}
 			return instanceMap[key];
 		}
