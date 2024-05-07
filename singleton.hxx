@@ -6,7 +6,11 @@
 
 template<typename Class, typename... Bases>
 class Singleton: public Bases... {
+	private:
+		Singleton(std::string name = ""): name(name) {};
 	public:
+		std::string name;
+		
 		static Class* instance() {
 			static Class* instance = new Class;
 			return instance;
