@@ -3,29 +3,35 @@
 
 #include <map>
 #include <string>
+#include <memory>
 
 template<typename Class, typename... Bases>
 class Singleton: public Bases... {
-	private:
+	protected:
 		Singleton(std::string name = ""): name(name) {};
+	
 	public:
 		std::string name;
 		
-		static Class* instance() {
-			static Class* instance = new Class;
+		Singleton(Singleton const&) = delete;
+		void operator=(Singleton const&) = delete;
+		
+		static std::shared_ptr<Class> instance() {
+			static std::shared_ptr<Class> instance = std::shared_ptr<Class>(new Class);
 			return instance;
 		}
 		
-		static Class* instance(std::string key) {
+		static std::shared_ptr<Class> instance(std::string key) {
 			if (key.empty()) {
 				return instance();
 			}
-			static std::map<std::string, Class*> instanceMap;
+			static std::map<std::string, std::shared_ptr<Class>> instanceMap;
 			if (!instanceMap.contains(key)) {
-				instanceMap[key] = new Class(key);
+				instanceMap[key] = std::shared_ptr<Class>(new Class(key));
 			}
 			return instanceMap[key];
 		}
 };
+
 #endif
 
