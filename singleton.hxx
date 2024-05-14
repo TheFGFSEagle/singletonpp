@@ -5,7 +5,7 @@
 #include <string>
 #include <memory>
 
-template<typename Class, typename... Bases, typename SmartPtrType = std::shared_ptr>
+template<typename Class, typename... Bases>
 class SmartPtrSingleton: public Bases... {
 	protected:
 		SmartPtrSingleton(std::string name = ""): name(name) {};
@@ -13,25 +13,25 @@ class SmartPtrSingleton: public Bases... {
 	public:
 		std::string name;
 		
-		SmartPtr(SmartPtrSingleton const&) = delete;
+		SmartPtrSingleton(SmartPtrSingleton const&) = delete;
 		void operator=(SmartPtrSingleton const&) = delete;
 		
-		static SmartPtrType<Class> instance() {
-			static SmartPtrType<Class> instance = SmartPtrType<Class>(new Class);
+		static std::shared_ptr<Class> instance() {
+			static std::shared_ptr<Class> instance = std::shared_ptr<Class>(new Class);
 			return instance;
 		}
 		
-		static SmartPtrType<Class> instance(std::string key) {
+		static std::shared_ptr<Class> instance(std::string key) {
 			if (key.empty()) {
 				return instance();
 			}
-			static std::map< std::string, SmartPtrType<Class> > instanceMap;
+			static std::map< std::string, std::shared_ptr<Class> > instanceMap;
 #if __cplusplus < 202002L
 			if (!instanceMap.count(key) > 0) {
 #else
 			if (!instanceMap.contains(key)) {
 #endif
-				instanceMap[key] = SmartPtrType<Class>(new Class(key));
+				instanceMap[key] = std::shared_ptr<Class>(new Class(key));
 			}
 			return instanceMap[key];
 		}
