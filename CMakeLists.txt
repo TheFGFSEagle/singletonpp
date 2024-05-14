@@ -3,7 +3,6 @@ project(singleton++ VERSION 1.0.0  LANGUAGES CXX)
 
 include(CTest)
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(ENABLE_TESTING "Whether to build testing executables" ON)
 

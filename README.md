@@ -1,5 +1,5 @@
 # Singleton++
-Simple header-only multi-instance-option singleton class for C++ 20
+Simple header-only multi-instance-option singleton class for C++ 20 (earlier is supported too)
 
 # Usage example
 ```c++
