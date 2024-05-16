@@ -8,7 +8,7 @@
 template<typename Class, typename... Bases>
 class SmartPtrSingleton: public Bases... {
 	protected:
-		SmartPtrSingleton(std::string name = ""): name(name) {};
+		SmartPtrSingleton(std::string name = ""): Bases(name)..., name(name) {};
 	
 	public:
 		std::string name;
@@ -41,7 +41,7 @@ class SmartPtrSingleton: public Bases... {
 template<typename Class, typename... Bases>
 class Singleton: public Bases... {
 	protected:
-		Singleton(std::string name = ""): name(name) {};
+		Singleton(std::string name = ""): Bases(name)..., name(name) {};
 	
 	public:
 		std::string name;
