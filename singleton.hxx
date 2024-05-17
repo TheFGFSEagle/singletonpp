@@ -10,7 +10,15 @@ class SmartPtrSingleton: public Bases... {
 	protected:
 		SmartPtrSingleton(std::string name = ""): name(name), Bases()... {};
 	
+		virtual void init(std::string name = "") {
+			if (inited) {
+				return;
+			}
+			inited = true;
+		};
+	
 	public:
+		bool inited = {false};
 		std::string name;
 		
 		SmartPtrSingleton(SmartPtrSingleton const&) = delete;
@@ -18,6 +26,9 @@ class SmartPtrSingleton: public Bases... {
 		
 		static std::shared_ptr<Class> instance() {
 			static std::shared_ptr<Class> instance = std::shared_ptr<Class>(new Class);
+			if (!instance->inited) {
+				instance->init();
+			}
 			return instance;
 		}
 		
@@ -32,6 +43,7 @@ class SmartPtrSingleton: public Bases... {
 			if (!instanceMap.contains(key)) {
 #endif
 				instanceMap[key] = std::shared_ptr<Class>(new Class(key));
+				instanceMap[key]->init(key);
 			}
 			return instanceMap[key];
 		}
@@ -42,8 +54,16 @@ template<typename Class, typename... Bases>
 class Singleton: public Bases... {
 	protected:
 		Singleton(std::string name = ""): name(name), Bases()... {};
+		
+		virtual void init(std::string name = "") {
+			if (inited) {
+				return;
+			}
+			inited = true;
+		};
 	
 	public:
+		bool inited = {false};
 		std::string name;
 		
 		Singleton(Singleton const&) = delete;
@@ -51,6 +71,9 @@ class Singleton: public Bases... {
 		
 		static Class* instance() {
 			static Class* instance = new Class;
+			if (!instance->inited) {
+				instance->init();
+			}
 			return instance;
 		}
 		
@@ -65,6 +88,7 @@ class Singleton: public Bases... {
 			if (!instanceMap.contains(key)) {
 #endif
 				instanceMap[key] = new Class(key);
+				instanceMap[key]->init(key);
 			}
 			return instanceMap[key];
 		}
